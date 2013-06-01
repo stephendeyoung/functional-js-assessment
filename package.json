@@ -1,8 +1,8 @@
 {
-  "name": "functional-programming-presentation",
+  "name": "functional-js-assessment",
   "version": "0.0.0",
-  "description": "",
-  "repository": "",
+  "description": "A test-driven assessment for Javascript's functional features",
+  "repository": "https://github.com/stephendeyoung/functional-js-assessment",
   "author": "Stephen Young",
   "devDependencies": {
     "chai": "~1.6.0",
