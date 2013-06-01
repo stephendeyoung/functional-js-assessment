@@ -37,6 +37,8 @@ When the tests throw an error in this manner they will report back in the termin
 
 In addition, some of the tests do additional checks on the given answer so they did not become too easy.
 
+Please note that these "functional" checks are not comprehensive.
+
 ## Getting started
 
 First clone the repository and then install the dependencies:
