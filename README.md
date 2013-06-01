@@ -55,7 +55,7 @@ Then in the root of the directory just run:
 
 `mocha`
 
-You can also run the tests in the browser. On the command line just run:
+You can also run the tests in the browser. You will need to have [grunt installed](http://gruntjs.com/getting-started). On the command line just run:
 
 `grunt server`
 
