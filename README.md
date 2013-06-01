@@ -12,6 +12,8 @@ The tests aim to assess the developer's knowledge of Javascript's functional fea
 * Recursion
 * Continuations
 
+Some of the tests borrow from Rebecca Murphey's excellent [JS Assessment](https://github.com/rmurphey/js-assessment).
+
 In order to ensure the developer can solve these challenges without resorting to "stateful" operations the tests use [esprima](http://esprima.org/) to check that the solutions are "functional" in nature.
 
 Therefore, using the following statements will throw an error:
