@@ -37,7 +37,7 @@ If you declare a variable and then try to change its value later on the test wil
 
 When the tests throw an error in this manner they will report back in the terminal or the browser's console the offending statement and the line on which it occurs.
 
-In addition, some of the tests do additional checks on the given answer so they did not become too easy.
+In addition, some of the tests do additional checks on the given answer so they are not too easy.
 
 Please note that these "functional" checks are not comprehensive.
 
