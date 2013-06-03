@@ -55,7 +55,7 @@ Then in the root of the directory just run:
 
 `mocha`
 
-You can also run the tests in the browser. You will need to have [grunt installed](http://gruntjs.com/getting-started). On the command line just run:
+You can also run the tests in the browser. You can either use your own web server to serve the index.html in the root of the directory or you can use grunt. You will need to have it [installed](http://gruntjs.com/getting-started) first. Then on the command line just run:
 
 `grunt server`
 
