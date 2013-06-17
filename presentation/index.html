@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Functional programming in JS</title>
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <style>
+            .lbi-logo {
+                position: absolute;
+                top: 1%;
+                left: 2%;
+            }
+
+            .reveal h1 {
+                font-size: 2.5em;
+                line-height: 1.2;
+            }
+
+            .reveal h2 {
+                font-size: 2em;
+            }
+
+            .reveal section img {
+                border: 0;
+            }
+        </style>
+        <!--<p class="lbi-logo"><a href="http://www.lbi.com/uk/"><img src="i/logo_LBi_red.gif" alt="LBi home page"></a></p>-->
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h1>Functional programming in Javascript</h1>
+                    <p><small>Stephen Young</small></p>
+                    <img src="i/lambda.png" alt="">
+                </section>
+                <section>
+                    <h2>Contents</h2>
+                    <ol>
+                        <li>What is functional programming?</li>
+                        <li>Why is it useful?</li>
+                        <li>Patterns in functional programming</li>
+                        <li>Further Resources</li>
+                        <li>Test-Driven Tutorial</li>
+                    </ol>
+                    <aside class="notes">
+                        <ul>
+                            <li>Mention code samples</li>
+                            <li>Mention contrast with OO</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <section>
+                        <h2>What is functional programming?</h2>
+                        <p>It's all about <strong>functions</strong>!</p>
+                        <p>You probably do "functional" things every day&hellip;</p>
+                    </section>
+                    <section>
+                        <h3>Creating functions</h3>
+                        <pre><code data-trim contenteditable>
+var returnFunc = function(z) {
+    return function(a) {
+        return a * z;
+    };
+};
+                    </code></pre>
+                    </section>
+                    <section>
+                        <h3>Passing functions to other functions</h3>
+                        <pre><code data-trim contenteditable>
+var funcAsArgument = function(a, func) {
+    return func(a);
+};
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Using them to transform data</h3>
+                        <pre><code data-trim contenteditable>
+var newArray = [1, 2, 3].map(function(v, i) {
+    return v + 2;
+});
+
+console.log(newArray) // [3, 4, 5]
+                        </code></pre>
+                        <aside class="notes">
+                        <p>Talk briefly about "functional" methods</p>
+                    </aside>
+                    </section>
+                    <section>
+                        <h3>The environments in which they are created (closures)</h3>
+                        <pre><code data-trim contenteditable>
+var func = function() {
+    var a = 3;
+    return function(b) {
+        return b * a;
+    };
+};
+
+var closure = func();
+closure(4) // 12
+                        </code></pre>
+                    </section>
+
+
+                </section>
+                <section>
+                    <p>All of these examples demonstrate one of the key features of functional programming:</p>
+                    <p class="fragment">Functions are <strong>values</strong></p>
+                    <div class="fragment">
+                        <p>They are <strong>first-class</strong>!</p>
+                        <img src="i/first-class.jpg" alt="">
+                    </div>
+                    <aside class="notes">
+                        <p>Mention higher-order functions</p>
+                    </aside>
+                </section>
+                <section>
+                    <p>Three key concepts:</p>
+                    <ol>
+                        <li class="fragment">Computation as the application of functions</li>
+                        <li class="fragment">Statelessness</li>
+                        <li class="fragment">Immutable data</li>
+                    </ol>
+                    <aside class="notes">
+                        <ul>
+                            <li>Define Statelessness (program state)</li>
+                            <li>Define immutable</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <p>In functional programming computation is done by applying functions:</p>
+
+                    <pre ><code data-trim contenteditable>
+// Functional computation
+var numbers = [10, 15, 20, 25, 30];
+var addNumbersInArray = numbers.reduce(function(a, b) {
+    return a + b;
+});
+
+console.log(addNumbersInArray) // 100
+                    </code></pre>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+// Non-functional computation
+var numbers = [10, 15, 20, 25, 30];
+var addNumbersInArray = 0;
+
+for (var i = 0, ln = numbers.length; i < ln; i += 1) {
+    addNumbersInArray += numbers[i];
+}
+
+console.log(addNumbersInArray) // 100
+                    </code></pre>
+
+                </section>
+                <section>
+                    <p>Functional programming is <strong>declarative</strong>:</p>
+                    <blockquote class="fragment">
+                        <p>I do not care how you calculate the result I'm just going to give you this function and let you deal with it.</p>
+                    </blockquote>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var isEveryElementInThisArrayTrue = [true, true, false].every(function(v) {
+    return v === true;
+});
+
+console.log(isEveryElementInThisArrayTrue) // false
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Non-functional programming (or object-oriented programming) is <strong>imperative</strong>:</p>
+                    <blockquote class="fragment">
+                        <p>I will give you step-by-step instructions of how I want you to achieve the result.</p>
+                    </blockquote>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var isEveryElementInThisArrayTrue = function(arrayOfBooleans) {
+    var result;
+    for (var i = 0, ln = arrayOfBooleans.length; i < ln; i += 1) {
+        result = arrayOfBooleans[i] === true;
+    }
+    return result;
+};
+
+console.log(isEveryElementInThisArrayTrue([true, true, false])) // false
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Functional programming is about being predictable.</p>
+                    <p class="fragment">Every time I call a function with the same arguments I will expect to get the same result:</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+// Every call to 'increment' produces the same result
+var number = 1;
+var increment = function(n) {
+    return n + 1;
+};
+increment(number); // 2
+increment(number); // 2
+increment(number); // 2
+                    </code></pre>
+                </section>
+                <section>
+                    <p>This is known as <strong>referential transparency</strong>&hellip;</p>
+                    <p class="fragment">And can be described as a <strong>stateless</strong> approach to programming.</p>
+                </section>
+                <section>
+                    <p>Object-oriented programming is <strong>stateful</strong>:</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var number = 1;
+var increment = function() {
+    return number += 1;
+};
+increment(); // 2
+increment(); // 3
+increment(); // 4
+                    </code></pre>
+                    <p class="fragment">The state of the program's environment is changed.</p>
+                </section>
+                <section>
+                    <p>Object-oriented programming works by changing program state to produce answers.</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+// To get an answer we continuously change the value of 'addNumbersInArray'
+var numbers = [10, 15, 20, 25, 30];
+var addNumbersInArray = 0;
+
+for (var i = 0, ln = numbers.length; i < ln; i += 1) {
+    addNumbersInArray += numbers[i];
+}
+
+console.log(addNumbersInArray) // 100
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Functional programming uses function application to produce answers without changing state.</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var numbers = [10, 15, 20, 25, 30];
+var addNumbersInArray = function(numbersArray, i, result) {
+    if (i >= numbersArray.length) {
+        return result;
+    } else {
+        return addNumbersInArray(numbersArray, i + 1, result + numbersArray[i]);
+    }
+};
+
+console.log(addNumbersInArray(numbers, 0, 0)); // 100
+                    </code></pre>
+                    <p class="fragment">This is an example of recursion (a function that calls itself).</p>
+                </section>
+                <section>
+                    <p>Functional programming is about working with data that does not change.</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var x = 3;
+x = 4; // Illegal with functional programming
+                    </code></pre>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var array = [1, 'one', 2, 'two', 3];
+array.push('three'); // Illegal with functional programming
+                    </code></pre>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var obj = {a: 1, b: 2, c: 3};
+obj.d = 4; // Illegal with functional programming
+                    </code></pre>
+                    <p class="fragment">All of these mutate data and are <strong>stateful</strong> operations.</p>
+                </section>
+                <section>
+                    <p>Functional programming advocates <strong>immutable</strong> data.</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var x = 3;
+var y = x + 1;
+                    </code></pre>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var array = [1, 'one', 2, 'two', 3];
+var array2 = array.concat('three'); // Produces a new array and doesn't change the old one
+                    </code></pre>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var object = {a: 1, b: 2, c: 3};
+var object2 = Object.create(obj, {d: {value: 4, enumerable: true}}; // Produces a new object and doesn't change the old one
+                    </code></pre>
+                    <p class="fragment">All of these are <strong>stateless</strong> operations.</p>
+                </section>
+                <section>
+                    <section>
+                        <h2>Why is it useful?</h2>
+                        <ol>
+                            <li class="fragment">A more elegant way of writing programs</li>
+                            <li class="fragment">Programs that are rigorous and easier to test</li>
+                            <li class="fragment">Programs that are easier to maintain</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+// This reads nicer
+var isEveryElementInThisArrayTrue = [true, true, false].every(function(v) {
+    return v === true;
+});
+
+console.log(isEveryElementInThisArrayTrue) // false
+                        </code></pre>
+                        <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+// than this
+var isEveryElementInThisArrayTrue = function(arrayOfBooleans) {
+    var result;
+    for (var i = 0, ln = arrayOfBooleans.length; i < ln; i += 1) {
+        result = arrayOfBooleans[i] === true;
+    }
+    return result;
+};
+
+console.log(isEveryElementInThisArrayTrue([true, true, false])) // false
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+var anyFunction = function() {
+    var x = 5;
+    var data = {
+        a: 5,
+        b: 6
+    };
+    anotherFunction(data);
+    x = 5 + data.a;
+};
+                        </code></pre>
+
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Patterns in functional programming</h2>
+                        <h3 class="fragment">Continuation Passing Style (CPS)</h3>
+                        <p class="fragment">Uses continuations (functions) to represent the next stage of computation:</p>
+                        <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+$.get('url', function(data) {
+    console.log(data);
+});
+
+http.get('url', function(data) {
+    console.log(data);
+});
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>A more complex example to compute the factorial of <code>n</code>.</p>
+                        <p class="fragment">If <code>n</code> is 3 then the factorial of <code>n</code> is <code>1 * 2 * 3 = 6</code></p>
+                        <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var CPSFactorial = function(n, continuation) {
+    if (n < 2) {
+        return continuation(n);
+    } else {
+        var new_continuation = function(v) {
+            var result = v * n;
+            return continuation(result);
+        };
+        return CPSFactorial(n - 1, new_continuation);
+    }
+};
+
+CPSFactorial(5, function(v) {
+    return v;
+}); // 1 * 2 * 3 * 4 * 5 = 120
+                        </code></pre>
+                        <aside class="notes">
+                        <ul>
+                            <li>Mention closures</li>
+                            <li>Mention how this can be alternative to recursion</li>
+                        </ul>
+                    </aside>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Partial application</h3>
+                        <p>Pre-filling an argument to a function.</p>
+                        <p class="fragment">The simplest way is with <code>bind</code>:</p>
+                        <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var bindExample = function(a, b) {
+    return a / b;
+};
+
+var test = bindExample.bind(null, 3);
+
+test(4); // 0.75
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>However, we can write our own:</p>
+                        <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var bind = function(a, func) {
+    return function() {
+        return func.apply(null, [a].concat(Array.prototype.slice.call(arguments)));
+    };
+};
+
+var bindExample = function(a, b) {
+    return a / b;
+};
+
+var test = bind(3, bindExample);
+
+test(4); // 0.75
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <h3>Currying</h3>
+                    <p>Similar to partial application, however, &hellip;</p>
+                    <p class="fragment">A curried function will return a new function until it receives all of its arguments.</p>
+                    <pre class="fragment" data-state="somestate"><code data-trim contenteditable>
+var curry = function(fn) {
+    var result = function() {
+        var newArgs = Array.prototype.slice.call(arguments, 0);
+
+        if (newArgs.length >= fn.length) {
+            var finalResult = fn.apply(null, newArgs);
+            return finalResult;
+        } else {
+            return Function.prototype.bind.apply(result, [null].concat(newArgs));
+        }
+    };
+
+    return result;
+};
+
+var addNumbers = curry(function(arg1, arg2, arg3) {
+
+    return arg1 + arg2 + arg3;
+});
+
+var curry1 = addNumbers(4); // function
+var curry2 = curry1(5); // function
+
+console.log(curry2(6)); // 15
+
+var curryA = addNumbers(10, 20); // function
+
+console.log(curryA(30)); // 60
+
+var curryI = addNumbers(); // function
+
+console.log(curryI(1, 2, 3)); // 6
+                    </code></pre>
+                    <p class="fragment"><a href="http://codepen.io/anon/pen/zgGli">http://codepen.io/anon/pen/zgGli</a></p>
+                </section>
+                <section>
+                    <h2>Further Resources</h2>
+                    <ul>
+                        <li>Surprise, surprise Crockford's <a href="http://shop.oreilly.com/product/9780596517748.do">The Good Parts</a></li>
+                        <li>Shameless plug for my blog posts:
+                            <ul>
+                                <li><a href="http://stephen-young.me.uk/2013/01/20/functional-programming-with-javascript.html">Functional programming with Javascript</a></li>
+                                <li><a href="http://stephen-young.me.uk/2013/03/16/functional-applications-with-frp.html">Writing functional applications with Functional Reactive Programming and Bacon.js</a></li>
+                            </ul>
+                        </li>
+                        <li>The <a href="http://www.haskell.org/haskellwiki/Introduction">Haskell Wiki</a></li>
+                        <li><a href="http://www.amazon.co.uk/Functional-JavaScript-Introducing-Programming-Underscore-js/dp/1449360726">Functional JavaScript: Introducing Functional Programming with Underscore.js</a></li>
+                        <li><a href="https://github.com/documentcloud/underscore-contrib">The Underscore contrib library</a></li>
+                        <li><a href="http://blog.fogus.me/">Michael Fogus' blog</a></li>
+                        <li><a href="https://github.com/raimohanska/bacon.js">Bacon.js &mdash; a Functional Reactive Programming library</a></li>
+                        <li><a href="http://www.altdevblogaday.com/2012/04/26/functional-programming-in-c/">The practical considerations of functional programming</a> (this is aimed at C++ programmers but it's still useful for all programmers)</li>
+                        <li><a href="http://slid.es/gsklee/functional-programming-in-5-minutes">Functional programming in 5 minutes</a></li>
+                        <li><a href="http://www.youtube.com/watch?v=m3svKOdZijA">Hey Underscore, You're doing it wrong!</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Test-Driven Tutorial</h2>
+                    <p><a href="https://github.com/stephendeyoung/functional-js-assessment">https://github.com/stephendeyoung/functional-js-assessment</a></p>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                rollingLinks: false,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'socket.io/socket.io.js', async: true },
+                    { src: 'plugin/notes-server/client.js', async: true }
+                    // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+            Reveal.addEventListener( 'fragmentshown', function( event ) {
+                hljs.initHighlighting();
+            } );
+
+        </script>
+
+    </body>
+</html>
