@@ -46,7 +46,7 @@ var runTests = function(data) {
                 expect(v(function(b) {return 'Sup yo';})).to.equal('Sup yo');
             });
 
-            it('test3: should partially apply an argument', function() {
+            it('test3: should return a function that partially applies some arguments', function() {
                 // taken from Rebecca Murphey's JS Assessment:
                 // https://github.com/rmurphey/js-assessment
                 var sayIt = function(greeting, name, punctuation) {
@@ -56,7 +56,7 @@ var runTests = function(data) {
                 expect(partial('!!!')).to.equal('Hello, Ellie!!!');
             });
 
-            it('test4: should partially apply any number of arguments', function() {
+            it('test4: should return a function that partially applies any number of arguments', function() {
                 var add = function(a, b) {
                     return a + b;
                 };
@@ -76,7 +76,7 @@ var runTests = function(data) {
                 expect(partial3(partial2(partial1(5)))).to.equal(73200);
             });
 
-            it('test5: should be able to curry existing functions', function () {
+            it('test5: takes a function as an argument and should return a function that keeps returning functions until all of the arguments have been supplied (currying)', function () {
                 // adapted slightly from Rebecca Murphey's JS Assessment:
                 // https://github.com/rmurphey/js-assessment
                 var curryMe = function (x, y, z) {
@@ -208,7 +208,7 @@ var runTests = function(data) {
                 new Employee(data2[1])
             ];
 
-            it('test7: should produce a new array of objects from an array of data using the "map" method', function() {
+            it('test7: should return a new array of objects from an array of data using the "map" method', function() {
 
                 expect(answers.test7(data, Employee).every(function(v) {
                     return v instanceof Employee;
