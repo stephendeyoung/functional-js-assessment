@@ -278,7 +278,7 @@ var runTests = function(data) {
 
         describe('recursion', function() {
 
-            it('test10: should recursively loop over an array of numbers and return the result of adding them all together (without using the native Array methods)', function() {
+            it('test10: should recursively loop over an array of numbers and return the result of adding them all together (without using the following Array methods: "map", "reduce", "every", "some", "filter", "reduceRight"', function() {
                 var v = answers.test10();
                 var answerTokens = esprima.parse('var _esprima_ = ' + v.toString(), {
                     tokens: true
@@ -289,7 +289,7 @@ var runTests = function(data) {
                 expect(v([10, 123, 6])).to.equal(139);
             });
 
-            it('test11: should provide a "functional" implementation of Array.prototype.map (without using the native Array methods)', function() {
+            it('test11: should provide a "functional" implementation of Array.prototype.map (without using the following Array methods: "map", "reduce", "every", "some", "filter", "reduceRight"', function() {
                 var v = answers.test11();
                 var answerTokens = esprima.parse('var _esprima_ = ' + v.toString(), {
                     tokens: true
@@ -316,7 +316,7 @@ var runTests = function(data) {
 
         describe('continuations', function() {
 
-            it('test12: should return a function that orders an array of numbers from smallest to largest using continuations and without using the native array methods', function() {
+            it('test12: should return a function that orders an array of numbers from smallest to largest using continuations and without using the following Array methods: "map", "reduce", "every", "some", "filter", "reduceRight"', function() {
                 var nums = [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()];
                 var nums2 = [Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()];
 
